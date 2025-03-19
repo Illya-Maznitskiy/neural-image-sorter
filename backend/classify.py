@@ -30,6 +30,7 @@ def classify_image(img):
 
     # Get the class with the highest probability
     class_idx = np.argmax(predictions[0])
+    confidence = predictions[0][class_idx]
 
     class_names = [
         "cats",
@@ -37,5 +38,6 @@ def classify_image(img):
     ]  # Make sure this matches the classes your model was trained with
 
     predicted_class = class_names[class_idx]
-    print(f"Predicted class: {predicted_class}")
-    return predicted_class
+    print(f"Predicted class: {predicted_class}, Confidence: {confidence}")
+
+    return predicted_class, confidence
