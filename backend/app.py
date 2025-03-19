@@ -1,64 +1,60 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template, jsonify, redirect, url_for
 from classify import classify_image
 from PIL import Image
 import io
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder="../frontend/templates",
+    static_folder="../frontend/static",
+)
 
 
 @app.route("/", methods=["GET"])
 def home():
-    print("GET / - Serving the home page with the upload form.")
-    return """
-    <h1>Hi, it's Neural Image Sorter!</h1>
-    <p>Upload an image to classify (cats or dogs):</p>
-    <form action="/predict" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*" required>
-        <button type="submit">Upload Image</button>
-    </form>
-    """
+    return render_template("index.html")
 
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    print("POST /predict - Received POST request to classify an image.")
-
     try:
-        # Check if the image part exists in the request
         if "image" not in request.files:
-            print("Error: No image part in request.")
-            return jsonify({"error": "No image part"}), 400
+            print("Error: No image file uploaded.")
+            return jsonify({"error": "No image uploaded"}), 400
 
-        # Get the image file from the request
         image_file = request.files["image"]
-        print(f"Received image: {image_file.filename}")
-
-        # Open and process the image
         image = Image.open(io.BytesIO(image_file.read()))
-        print(
-            f"Original image size: {image.size}"
-        )  # Debug print for original image size
+
+        # Ensure RGB mode (handling transparent images like PNGs)
+        if image.mode != "RGB":
+            image = image.convert("RGB")
 
         image = image.resize((128, 128))
+        prediction, confidence = classify_image(image)
+
         print(
-            f"Resized image size: {image.size}"
-        )  # Debug print for resized image size
+            f"Prediction: {prediction}, Confidence: {confidence}"
+        )  # Debug print
 
-        # Classify the image using the classify_image function
-        prediction = classify_image(image)
-        print(f"Prediction: {prediction}")
+        confidence = round(float(confidence) * 100, 2)
 
-        # Return the result as a simple HTML page (or JSON if you prefer)
-        return f"""
-        <h1>Prediction: {prediction}</h1>
-        <a href="/">Go back</a>
-        """
+        # Return prediction and confidence as JSON
+        return jsonify({"prediction": prediction, "confidence": confidence})
 
     except Exception as e:
-        print(f"Error during image classification: {str(e)}")
+        print(f"Error in predict route: {e}")
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/result")
+def result():
+    prediction = request.args.get("prediction")
+    confidence = request.args.get("confidence")
+
+    return render_template(
+        "result.html", prediction=prediction, confidence=confidence
+    )
+
+
 if __name__ == "__main__":
-    print("Starting Flask app...")
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)
