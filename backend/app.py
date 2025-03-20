@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify, redirect, url_for
+from flask import Flask, request, render_template, jsonify
 from classify import classify_image
 from PIL import Image
 import io
@@ -32,13 +32,8 @@ def predict():
         image = image.resize((128, 128))
         prediction, confidence = classify_image(image)
 
-        print(
-            f"Prediction: {prediction}, Confidence: {confidence}"
-        )  # Debug print
-
         confidence = round(float(confidence) * 100, 2)
 
-        # Return prediction and confidence as JSON
         return jsonify({"prediction": prediction, "confidence": confidence})
 
     except Exception as e:
@@ -50,9 +45,15 @@ def predict():
 def result():
     prediction = request.args.get("prediction")
     confidence = request.args.get("confidence")
+    if prediction == "cats":
+        emoji = "😸"
+    else:
+        emoji = "🐶"
 
     return render_template(
-        "result.html", prediction=prediction, confidence=confidence
+        "result.html",
+        prediction=prediction + " " + emoji,
+        confidence=confidence,
     )
 
 
