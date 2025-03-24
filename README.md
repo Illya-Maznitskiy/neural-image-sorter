@@ -30,17 +30,34 @@ pip install -r requirements.txt
 ```
 
 
-## Install a dataset
-Use the following commands to install it:
-(Average execution time: ~3 minutes)
-```bash
-cd backend
-python download_dataset.py
+## Download a dataset
+1. Download the dataset manually from Kaggle:
+[kaggle_cat_and_dog](https://www.kaggle.com/datasets/tongpython/cat-and-dog)
+
+2. Extract the dataset so that the folder structure looks like this:
+```
+neural-image-sorter/
+├── backend/
+│   ├── dataset/
+│   │   ├── cats/
+│   │   ├── dogs/
 ```
 
 
+## Preprocess data
+Run the preprocess script to resize the images for the machine learning model:
+```bash
+cd backend
+python preprocess.py
+```
+
+
+## Teach the machine
+Run the [train_model.ipynb](backend/model_training/train_model.ipynb) notebook to train your model.
+
+
 ## Run the local server
-Open the terminal and use the following commands:
+Use the following commands to start the server:
 ```bash
 cd backend
 python app.py
