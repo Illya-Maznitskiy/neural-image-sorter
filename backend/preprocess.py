@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 
-DATASET_DIR = "dataset/train"
+DATASET_DIR = "dataset/"
 OUTPUT_PATH = "model_training/processed_data.npz"
 IMG_SIZE = 128
 
