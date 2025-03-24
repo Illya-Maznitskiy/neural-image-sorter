@@ -379,3 +379,4 @@ pip-selfcheck.json
 # Machine Learning files
 model/
 processed_data.npz
+dataset/
