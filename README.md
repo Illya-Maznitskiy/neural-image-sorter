@@ -66,10 +66,10 @@ python app.py
 
 # Screenshots:
 
-### Scraping Data
+### Home Page
 ![App Home Page](frontend/screenshots/app_home_page.png)
 
-### Data Analysis 
+### Result page
 ![App Result Page](frontend/screenshots/app_result_page.png)
 
 
