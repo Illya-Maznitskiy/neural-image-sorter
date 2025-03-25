@@ -26,12 +26,14 @@ defusedxml==0.7.1
 exceptiongroup==1.2.2
 executing==2.2.0
 fastjsonschema==2.21.1
+filelock==3.18.0
 flake8==7.1.2
 Flask==3.1.0
 flatbuffers==25.2.10
 fonttools==4.56.0
 fqdn==1.5.1
 gast==0.6.0
+gdown==5.2.0
 google-pasta==0.2.0
 grpcio==1.71.0
 h11==0.14.0
@@ -104,10 +106,9 @@ pycparser==2.22
 pyflakes==3.2.0
 Pygments==2.19.1
 pyparsing==3.2.1
+PySocks==1.7.1
 python-dateutil==2.9.0.post0
 python-json-logger==3.3.0
-pywin32==310
-pywinpty==2.0.15
 PyYAML==6.0.2
 pyzmq==26.3.0
 referencing==0.36.2
@@ -133,6 +134,7 @@ threadpoolctl==3.6.0
 tinycss2==1.4.0
 tomli==2.2.1
 tornado==6.4.2
+tqdm==4.67.1
 traitlets==5.14.3
 types-python-dateutil==2.9.0.20241206
 typing_extensions==4.12.2
