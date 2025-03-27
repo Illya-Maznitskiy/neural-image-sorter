@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, jsonify
 from classify import classify_image
 from PIL import Image
 import io
+from waitress import serve
 
 app = Flask(
     __name__,
@@ -58,4 +59,5 @@ def result():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    # Replacing the default Flask server with Waitress
+    serve(app, host="0.0.0.0", port=5000)
