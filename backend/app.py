@@ -60,4 +60,5 @@ def result():
 
 if __name__ == "__main__":
     # Replacing the default Flask server with Waitress
+    print("Starting the app with Waitress...")
     serve(app, host="0.0.0.0", port=5000)
