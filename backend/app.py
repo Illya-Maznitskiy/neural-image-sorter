@@ -21,7 +21,7 @@ print("Current Directory:", os.getcwd())
 print("📂 Files in Root Directory:", os.listdir("."))
 
 # Ensure model directory exists
-model_dir = os.path.abspath("/model/model.h5")
+model_dir = os.path.abspath("/app/backend/model/model.h5")
 print(f"📌 Model directory absolute path: {model_dir}")
 
 try:
