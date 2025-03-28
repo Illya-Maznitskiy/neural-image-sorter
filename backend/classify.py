@@ -1,9 +1,17 @@
 import tensorflow as tf
 import numpy as np
+import logging
 
 
 model_path = "model/model.h5"
-model = tf.keras.models.load_model(model_path)
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
+
+try:
+    model = tf.keras.models.load_model(model_path)
+    logging.info(f"Model loaded successfully from {model_path}")
+except Exception as e:
+    logging.error(f"Error loading model from {model_path}: {e}")
 
 
 def classify_image(img):
