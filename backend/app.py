@@ -5,29 +5,15 @@ import io
 from waitress import serve
 import os
 
-
 app = Flask(
     __name__,
     template_folder="../frontend/templates",
     static_folder="../frontend/static",
 )
 
-
-# Print working directory
 print("🚀 Starting Flask App...")
 print("Current Directory:", os.getcwd())
-
-# Check main directory contents
 print("📂 Files in Root Directory:", os.listdir("."))
-
-# Ensure model directory exists
-model_dir = os.path.abspath("/app/backend/model/model.h5")
-print(f"📌 Model directory absolute path: {model_dir}")
-
-try:
-    print("📂 Files in Model Directory:", os.listdir(model_dir))
-except Exception as e:
-    print(f"⚠️ Error accessing model directory: {e}")
 
 
 @app.route("/", methods=["GET"])
@@ -44,28 +30,21 @@ def predict():
             return jsonify({"error": "No image uploaded"}), 400
 
         image_file = request.files["image"]
-
-        # Debugging file info
         print(f"📸 Uploaded Image: {image_file.filename}")
         print(f"🔍 File Type: {image_file.content_type}")
 
         image = Image.open(io.BytesIO(image_file.read()))
-
-        # Print Image Details
         print(
             f"🖼️ Image Format: {image.format}, Mode: {image.mode}, Size: {image.size}"
         )
 
-        # Ensure RGB mode (handling PNG transparency issues)
         if image.mode != "RGB":
             print("🎨 Converting Image to RGB mode")
             image = image.convert("RGB")
 
-        # Resize image
         print("📏 Resizing Image to (128,128)")
         image = image.resize((128, 128))
 
-        # Run classification
         print("🧠 Running classification...")
         prediction, confidence = classify_image(image)
 
