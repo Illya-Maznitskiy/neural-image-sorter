@@ -100,5 +100,6 @@ def result():
 
 
 if __name__ == "__main__":
-    print("🚀 Starting the app with Waitress...")
+    print("Starting the app with Waitress...")
+    app.debug = True  # Enable debug mode to capture more logs
     serve(app, host="0.0.0.0", port=5000)
