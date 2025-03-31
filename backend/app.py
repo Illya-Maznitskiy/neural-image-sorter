@@ -45,6 +45,21 @@ def predict():
         print("📏 Resizing Image to (128,128)")
         image = image.resize((128, 128))
 
+        from classify import model
+
+        if model is None:
+            print(
+                "🚨 Model is not loaded! Cannot proceed with classification."
+            )
+            return (
+                jsonify(
+                    {
+                        "error": "Model is not available. Please check server logs."
+                    }
+                ),
+                500,
+            )
+
         print("🧠 Running classification...")
         prediction, confidence = classify_image(image)
 
