@@ -29,6 +29,7 @@ else:
 
 # Attempt to load the model
 try:
+    logging.info(f"Attempting to load model from: {model_path}")
     model = tf.keras.models.load_model(model_path)
     logging.info("✅ Model loaded successfully!")
 except Exception as e:
