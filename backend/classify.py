@@ -5,7 +5,7 @@ import logging
 
 
 # Path to the model
-model_path = "model/model.h5"
+model_path = os.path.join(os.getcwd(), "model", "model.h5")
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)

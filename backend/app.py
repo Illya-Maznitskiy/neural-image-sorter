@@ -48,17 +48,8 @@ def predict():
         from classify import model
 
         if model is None:
-            print(
-                "🚨 Model is not loaded! Cannot proceed with classification."
-            )
-            return (
-                jsonify(
-                    {
-                        "error": "Model is not available. Please check server logs."
-                    }
-                ),
-                500,
-            )
+            print("❌ Model not loaded, exiting application.")
+            exit(1)  # Ensure the app doesn't start without the model
 
         print("🧠 Running classification...")
         prediction, confidence = classify_image(image)
