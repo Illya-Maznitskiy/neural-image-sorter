@@ -24,6 +24,7 @@ logging.info(f"📄 Files in Current Directory: {files_in_directory}")
 # Check if the model file exists
 if os.path.exists(model_path):
     logging.info(f"✅ Model file found at: {model_path}")
+    logging.info(f"📏 Model file size: {os.path.getsize(model_path)} bytes")
 else:
     logging.error(f"❌ Model file NOT found at: {model_path}")
     logging.error(f"🛠️ Absolute Path: {os.path.abspath(model_path)}")
