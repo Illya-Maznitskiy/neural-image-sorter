@@ -1,13 +1,27 @@
 import os
+
+import requests
 import tensorflow as tf
 import numpy as np
 import logging
 
 
 # Path to the model
-model_path = os.path.join(os.getcwd(), "model", "model.h5")
+MODEL_PATH = os.path.join(os.getcwd(), "model", "model.h5")
+MODEL_URL = "https://drive.google.com/uc?export=download&id=10Pg-LLFNIq6Gx_wHOQsauTe-2E-rGCcN"
 
-print("Model path:", os.path.abspath(model_path))
+print("Model path:", os.path.abspath(MODEL_PATH))
+
+# Ensure model exists and is correct size
+if (
+    not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) < 1000000
+):  # Less than 1MB = corrupt
+    print("\U0001f817 Model file is missing or corrupted. Downloading...")
+    os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
+    response = requests.get(MODEL_URL)
+    with open(MODEL_PATH, "wb") as f:
+        f.write(response.content)
+    print("✅ Model downloaded successfully!")
 
 
 # Set up logging
@@ -22,19 +36,19 @@ files_in_directory = os.listdir(current_directory)
 logging.info(f"📄 Files in Current Directory: {files_in_directory}")
 
 # Check if the model file exists
-if os.path.exists(model_path):
-    logging.info(f"✅ Model file found at: {model_path}")
-    logging.info(f"📏 Model file size: {os.path.getsize(model_path)} bytes")
+if os.path.exists(MODEL_PATH):
+    logging.info(f"✅ Model file found at: {MODEL_PATH}")
+    logging.info(f"📏 Model file size: {os.path.getsize(MODEL_PATH)} bytes")
 else:
-    logging.error(f"❌ Model file NOT found at: {model_path}")
-    logging.error(f"🛠️ Absolute Path: {os.path.abspath(model_path)}")
+    logging.error(f"❌ Model file NOT found at: {MODEL_PATH}")
+    logging.error(f"🛠️ Absolute Path: {os.path.abspath(MODEL_PATH)}")
     model = None  # Prevent further errors
-    raise FileNotFoundError(f"Model file not found at {model_path}")
+    raise FileNotFoundError(f"Model file not found at {MODEL_PATH}")
 
 # Attempt to load the model
 try:
-    logging.info(f"Attempting to load model from: {model_path}")
-    model = tf.keras.models.load_model(model_path)
+    logging.info(f"Attempting to load model from: {MODEL_PATH}")
+    model = tf.keras.models.load_model(MODEL_PATH)
     logging.info("✅ Model loaded successfully!")
 except Exception as e:
     logging.error(f"❌ Error loading model: {e}")
