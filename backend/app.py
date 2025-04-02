@@ -4,6 +4,11 @@ from PIL import Image
 import io
 from waitress import serve
 import os
+import logging
+
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
 
 app = Flask(
     __name__,
@@ -11,14 +16,14 @@ app = Flask(
     static_folder="../frontend/static",
 )
 
-print("🚀 Starting Flask App...")
-print("Current Directory:", os.getcwd())
-print("📂 Files in Root Directory:", os.listdir("."))
+logging.info("🚀 Starting Flask App...")
+logging.info(f"Current Directory: {os.getcwd()}")
+logging.info(f"📂 Files in Root Directory: {os.listdir('.')}")
 
 
 @app.route("/", methods=["GET"])
 def home():
-    print("🔗 Home page accessed")
+    logging.info("🔗 Home page accessed")
     return render_template("index.html")
 
 
@@ -26,41 +31,41 @@ def home():
 def predict():
     try:
         if "image" not in request.files:
-            print("❌ Error: No image file uploaded.")
+            logging.error("❌ Error: No image file uploaded.")
             return jsonify({"error": "No image uploaded"}), 400
 
         image_file = request.files["image"]
-        print(f"📸 Uploaded Image: {image_file.filename}")
-        print(f"🔍 File Type: {image_file.content_type}")
+        logging.info(f"📸 Uploaded Image: {image_file.filename}")
+        logging.info(f"🔍 File Type: {image_file.content_type}")
 
         image = Image.open(io.BytesIO(image_file.read()))
-        print(
+        logging.info(
             f"🖼️ Image Format: {image.format}, Mode: {image.mode}, Size: {image.size}"
         )
 
         if image.mode != "RGB":
-            print("🎨 Converting Image to RGB mode")
+            logging.info("🎨 Converting Image to RGB mode")
             image = image.convert("RGB")
 
-        print("📏 Resizing Image to (128,128)")
+        logging.info("📏 Resizing Image to (128,128)")
         image = image.resize((128, 128))
 
         from classify import model
 
         if model is None:
-            print("❌ Model not loaded, exiting application.")
+            logging.critical("❌ Model not loaded, exiting application.")
             exit(1)
 
-        print("🧠 Running classification...")
+        logging.info("🧠 Running classification...")
         prediction, confidence = classify_image(image)
 
         confidence = round(float(confidence) * 100, 2)
-        print(f"✅ Prediction: {prediction}, Confidence: {confidence}%")
+        logging.info(f"✅ Prediction: {prediction}, Confidence: {confidence}%")
 
         return jsonify({"prediction": prediction, "confidence": confidence})
 
     except Exception as e:
-        print(f"❌ Error in predict route: {e}")
+        logging.error(f"❌ Error in predict route: {e}")
         return jsonify({"error": str(e)}), 500
 
 
@@ -68,12 +73,9 @@ def predict():
 def result():
     prediction = request.args.get("prediction")
     confidence = request.args.get("confidence")
-    if prediction == "cats":
-        emoji = "😸"
-    else:
-        emoji = "🐶"
+    emoji = "😸" if prediction == "cats" else "🐶"
 
-    print(
+    logging.info(
         f"📊 Result Page - Prediction: {prediction}, Confidence: {confidence}%"
     )
 
@@ -85,6 +87,6 @@ def result():
 
 
 if __name__ == "__main__":
-    print("Starting the app with Waitress...")
+    logging.info("Starting the app with Waitress...")
     app.debug = False
     serve(app, host="0.0.0.0", port=5000)
