@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    height: 100vh;
+    background-color: #f4f4f4;
+    background-image: url("catdog_result_bg.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 30px;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+button, .btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    background: rgba(0, 123, 255, 0.8);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    text-align: center;
+}
+
+button:hover, .btn:hover {
+    background: rgba(0, 123, 255, 1);
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+}
