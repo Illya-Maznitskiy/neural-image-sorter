@@ -40,7 +40,8 @@ def predict():
 
         image = Image.open(io.BytesIO(image_file.read()))
         logging.info(
-            f"🖼️ Image Format: {image.format}, Mode: {image.mode}, Size: {image.size}"
+            f"🖼️ Image Format: {image.format}, "
+            f"Mode: {image.mode}, Size: {image.size}"
         )
 
         if image.mode != "RGB":
