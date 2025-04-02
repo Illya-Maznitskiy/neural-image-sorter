@@ -49,7 +49,7 @@ def predict():
 
         if model is None:
             print("❌ Model not loaded, exiting application.")
-            exit(1)  # Ensure the app doesn't start without the model
+            exit(1)
 
         print("🧠 Running classification...")
         prediction, confidence = classify_image(image)
@@ -86,5 +86,5 @@ def result():
 
 if __name__ == "__main__":
     print("Starting the app with Waitress...")
-    app.debug = True  # Enable debug mode to capture more logs
+    app.debug = False
     serve(app, host="0.0.0.0", port=5000)
