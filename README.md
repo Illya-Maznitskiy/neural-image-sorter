@@ -5,10 +5,6 @@
 Neural Image Sorter is an AI-powered web app that classifies images with deep learning, featuring a simple upload and prediction interface. 🖼️🤖
 
 
-## Check the website!
-[Neural Image Sorter](https://neural-image-sorter.up.railway.app)
-
-
 ## Technologies Used
 - Python
 - Kaggle
